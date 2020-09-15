@@ -1,4 +1,4 @@
-package com.gjm.webcrawler;
+package com.gjm.webcrawler.parsing;
 
 import javafx.util.Pair;
 import lombok.RequiredArgsConstructor;
