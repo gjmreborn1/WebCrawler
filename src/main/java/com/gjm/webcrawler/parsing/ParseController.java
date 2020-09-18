@@ -1,6 +1,5 @@
 package com.gjm.webcrawler.parsing;
 
-import javafx.util.Pair;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +13,16 @@ public class ParseController {
 
     @GetMapping("/parse")
     public String parse(@RequestParam("url") String url, Model model) {
-        Pair<String, String> data = parseService.parseWebPage(url);
+        try {
+            PageData pageData = parseService.parseWebPage(url);
 
-        model.addAttribute("title", data.getKey());
-        model.addAttribute("content", data.getValue());
-        return "result";
+            model.addAttribute("content", pageData.getHtmlContent());
+            model.addAttribute("title", pageData.getTitle());
+            model.addAttribute("links", pageData.getLinks());
+            return "result";
+        } catch(Exception exc) {
+            System.out.println(exc);
+        }
+        return "null";
     }
 }

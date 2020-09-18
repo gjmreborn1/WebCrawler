@@ -9,6 +9,18 @@
 
     <p>Title: <u th:text="${title}"></u></p>
     <label>Content: <textarea disabled th:text="${content}"></textarea></label>
+    <p th:if="${links.isEmpty()}">No links found</p>
+    <table th:unless="${links.isEmpty()}">
+        <tr>
+            <th>URL</th>
+            <th>Title</th>
+        </tr>
+        <!--/*@thymesVar id="link" type="com.gjm.webcrawler.parsing.PageLink"*/-->
+        <tr th:each="link : ${links}">
+            <td th:text="${link.url}"></td>
+            <td th:text="${link.pageTitle}"></td>
+        </tr>
+    </table>
 
     <p>Back to <a href="/">home</a> page</p>
 </body>
