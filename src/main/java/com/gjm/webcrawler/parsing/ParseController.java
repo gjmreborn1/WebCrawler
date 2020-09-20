@@ -13,16 +13,11 @@ public class ParseController {
 
     @GetMapping("/parse")
     public String parse(@RequestParam("url") String url, Model model) {
-        try {
-            PageData pageData = parseService.parseWebPage(url);
+        PageData pageData = parseService.parseWebPage(url);
 
-            model.addAttribute("content", pageData.getHtmlContent());
-            model.addAttribute("title", pageData.getTitle());
-            model.addAttribute("links", pageData.getLinks());
-            return "result";
-        } catch(Exception exc) {
-            System.out.println(exc);
-        }
-        return "null";
+        model.addAttribute("content", pageData.getHtmlContent());
+        model.addAttribute("title", pageData.getTitle());
+        model.addAttribute("links", pageData.getLinks());
+        return "result";
     }
 }

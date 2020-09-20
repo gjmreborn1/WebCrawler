@@ -1,7 +1,6 @@
 package com.gjm.webcrawler.parsing;
 
 import com.gjm.webcrawler.networking.HttpService;
-import javafx.util.Pair;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,24 +31,38 @@ public class ParseService {
             PageLink pageLink = new PageLink();
 
             String url = matcher.group(2);
-            if(url == null || url.startsWith("tel") || url.startsWith("mailto")) {
+            if(!isUrlValid(url)) {
                 continue;
             }
-            url = url.replaceAll("\"", "");
+            url = makeUrlUserFriendly(url);
             pageLink.setUrl(url);
-            if(url.startsWith("/") || !url.startsWith("http")) {
-                url = "http://" + origin + "/" + url;
-            }
-            System.out.println(url);
+            url = makeUrlFull(url, origin);
 
-            // TODO: Refactor
-
-            PageData pageData = parseWebPageInternal(url, false);
-            pageLink.setPageTitle(pageData.getTitle());
-
+            pageLink.setPageTitle(parseWebPageInternal(url, false).getTitle());
             links.add(pageLink);
         }
         return links;
+    }
+
+    private boolean isUrlValid(String url) {
+        return !(url == null || url.startsWith("tel") || url.startsWith("mailto"));
+    }
+
+    private String makeUrlUserFriendly(String url) {
+        return url.replaceAll("\"", "")
+                .trim();
+    }
+
+    private String makeUrlFull(String url, String origin) {
+        if(url.startsWith("//")) {
+            return "https:" + url;
+        } else if(url.startsWith("/")) {
+            return "http://" + origin + "/" + url;
+        } else if(!url.startsWith("http")) {
+            return "http://" + origin + "/" + url;
+        } else {
+            return url;
+        }
     }
 
     private String parseWebPageTitle(String content) {
@@ -76,7 +89,8 @@ public class ParseService {
             String origin = urlObject.getHost();
             pageData.setOrigin(origin);
 
-            List<PageLink> links = withLinks ? getLinks(origin, content) : Collections.emptyList();
+            List<PageLink> links = withLinks ?
+                    getLinks(origin, content) : Collections.emptyList();
             pageData.setLinks(links);
 
             return pageData;
