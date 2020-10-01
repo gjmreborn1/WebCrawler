@@ -3,12 +3,21 @@
 <head>
     <meta charset="UTF-8" />
     <title>Web Crawler</title>
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"/>
+    <link href="styles.css" rel="stylesheet" />
 </head>
 <body>
-    <h1>Web Crawler</h1>
-    <form action="/parse" method="get">
-        <label>URL: <input name="url" type="url" required placeholder="URL..." /></label>
-        <button>Parse</button>
-    </form>
+    <main>
+        <h1>Web Crawler</h1>
+        <form action="/parse" method="get">
+            <label for="url-input">URL</label>
+            <input id="url-input" name="url" type="url" required placeholder="URL..." />
+
+            <button class="submit-btn">Parse</button>
+        </form>
+    </main>
 </body>
 </html>

@@ -3,31 +3,41 @@
 <head>
     <meta charset="UTF-8" />
     <title>Parsing result</title>
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"/>
+    <link href="styles.css" rel="stylesheet" />
 </head>
 <body>
-    <h1>Parsing result</h1>
+    <main id="page2">
+        <h1>Parsing result</h1>
 
-    <p>Title: <u th:text="${title}"></u></p>
-    <label>Content: <textarea disabled th:text="${content}"></textarea></label>
-    <p th:if="${links.isEmpty()}">No links found</p>
-    <table th:unless="${links.isEmpty()}">
-        <tr>
-            <th>URL</th>
-            <th>Title</th>
-        </tr>
-        <!--/*@thymesVar id="link" type="com.gjm.webcrawler.parsing.PageLink"*/-->
-        <tr th:each="link : ${links}">
-            <td th:text="${link.url}"></td>
-            <td th:text="${link.pageTitle}"></td>
-        </tr>
-    </table>
+        <p>Title: <u th:text="${title}"></u></p>
+        <label for="content-ta">Content:</label>
+        <textarea id="content-ta" cols="100" rows="10" disabled th:text="${content}"></textarea>
 
-    <p>Export page links to the file</p>
-    <form action="/export" method="get">
-        <input type="text" name="path" placeholder="File path..." required/>
-        <button>Save</button>
-    </form>
+        <h2 class="text-center">Links</h2>
+        <p th:if="${links.isEmpty()}">No links found</p>
+        <table id="links-table" th:unless="${links.isEmpty()}">
+            <tr>
+                <th class="links-table-cell">URL</th>
+                <th class="links-table-cell">Title</th>
+            </tr>
+            <!--/*@thymesVar id="link" type="com.gjm.webcrawler.parsing.PageLink"*/-->
+            <tr th:each="link : ${links}">
+                <td class="links-table-cell" th:text="${link.url}"></td>
+                <td class="links-table-cell" th:text="${link.pageTitle}"></td>
+            </tr>
+        </table>
 
-    <p>Back to <a href="/">home</a> page</p>
+        <h2 class="text-center">Export page links to the file or back to <a href="/">home</a> page.</h2>
+        <form action="/export" method="get" id="export-form">
+            <input type="text" name="path" placeholder="File path..." required/>
+            <button class="submit-btn">Save</button>
+        </form>
+    </main>
+
+    <footer></footer>
 </body>
 </html>
